@@ -38,6 +38,7 @@ const AuthSlice=createSlice({
             state.isLogin=true
         },
         logout(state){
+            
             localStorage.removeItem('email')
             localStorage.removeItem('username')
             localStorage.removeItem('postperscreen')
