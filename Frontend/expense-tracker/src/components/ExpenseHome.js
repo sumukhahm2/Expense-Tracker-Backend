@@ -64,6 +64,10 @@ const ExpenseHome=()=>{
 
   }
 
+  const logoutHandler=()=>{
+    dispatch(authAction.logout())
+  }
+
   //buyPremium function which is used to connect with Razorpay and display the Razorpay ui on frontend
   const buyPremium=async(e)=>{
 
@@ -166,6 +170,9 @@ const ExpenseHome=()=>{
        {!isPremium && <Button variant="primary" onClick={buyPremium}>Buy Premium</Button>}
        {isPremium && <div><h4>You Are A Premium User</h4><Button className="mb-3" onClick={!isLeaderBoaerd?showLeaderBoard:()=>{setLeaderBoard(false)}}>{!isLeaderBoaerd?'Show LeaderBoard':'Hide LeaderBoard'}</Button></div>}
        {isPremium && <a href="/report"  className=" border border-black text-decoration-none bg-success text-light ">Generate Report</a>}
+       </Col>
+       <Col>
+       <Button onClick={logoutHandler}>Logout</Button>
        </Col>
     </Row>
        <ExpenseList/>

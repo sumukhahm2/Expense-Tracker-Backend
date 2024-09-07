@@ -37,6 +37,13 @@ const AuthSlice=createSlice({
         stayLogin(state){
             state.isLogin=true
         },
+        logout(state){
+            localStorage.removeItem('email')
+            localStorage.removeItem('username')
+            localStorage.removeItem('postperscreen')
+            localStorage.removeItem('token')
+            state.isLogin=false
+        },
         setPremium(state,action){
             localStorage.setItem('premium',true)
             state.isPremium=true

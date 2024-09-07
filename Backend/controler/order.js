@@ -2,8 +2,7 @@ const Razorpay=require('razorpay')
 const Order=require('../model/order')
 const userControler=require('../controler/auth')
 const dotenv=require('dotenv')
-dotenv.config({ path: `.env.local`, override: true });
-console.log(process.env)
+
 exports.purchsePremium=(req,res,next)=>{
  
     try{                    
