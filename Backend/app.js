@@ -63,7 +63,7 @@ const buildPath=path.join(_dirname,"../Frontend/expense-tracker/build")
 
 app.use(express.static(buildPath))
 
-app.use((req,res)=>{
+app.use('/*',(req,res)=>{
     res.sendFile(
         path.join(__dirname,"../Frontend/expense-tracker/build/index.html")
     )
