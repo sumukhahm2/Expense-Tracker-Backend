@@ -59,13 +59,13 @@ app.use(orderRoute)
 app.use(passwordRoute)
 
 const _dirname=path.dirname("")
-const buildPath=path.join(_dirname,"../Frontend/expense-tracker/build")
+const buildPath=path.resolve(_dirname,"../Frontend/expense-tracker/build")
 
 app.use(express.static(buildPath))
 
-app.use('/*',(req,res)=>{
+app.get('/*',(req,res)=>{
     res.sendFile(
-        path.join(__dirname,"../Frontend/expense-tracker/build/index.html")
+        path.resolve(__dirname,"../Frontend/expense-tracker/build/index.html")
     )
 })
 const accessLogStream=fs.createWriteStream(path.join(__dirname,'access.log'),{flags:'a'})
