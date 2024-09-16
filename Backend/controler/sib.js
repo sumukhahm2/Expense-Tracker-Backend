@@ -4,9 +4,11 @@ const uuid=require('uuid')
 const ForgotPasswordRequest=require('../model/forgotPasswordRequest')
 const bcrypt=require('bcrypt')
 const { where } = require('sequelize')
-require('dotenv').config()
+require('dotenv').config({ path: `.env.local`, override: true });
+
 
 exports.sendForgotPasswordEmail=async(req,res,next)=>{
+    
  try{   
 const email=req.body.email
 console.log(email)
@@ -14,7 +16,7 @@ const user=await Auth.findOne({where:{email:email}})
 console.log(user)
 if(user)
 {
-    console.log('found')
+   
   const uid=uuid.v4() 
 
   user.createForgotpasswordrequest({id:uid,isActive:true})
@@ -22,7 +24,7 @@ const client=Sib.ApiClient.instance
 const apiKey=client.authentications['api-key']
 
 apiKey.apiKey=process.env.API_KEY
-
+console.log(process.env.API_KEY)
 const tranEmailApi=new Sib.TransactionalEmailsApi()
 
 const sender={
@@ -38,7 +40,7 @@ tranEmailApi.sendTransacEmail({
     to:reciever,
     subject:'hello learn Javascript ',
     textContent:'Your Password Reset Link',
-    htmlContent:`<div><h3>Your Password Reset Link</h3><a href="http://51.20.129.197:3000/password/create-password/${uid}">Link</a></div>`
+    htmlContent:`<div><h3>Your Password Reset Link</h3><a href="http://51.20.144.40:3000/password/create-password/${uid}">Link</a></div>`
 
 })
 .then(result=>{
