@@ -4,6 +4,7 @@ import { useDispatch,useSelector } from 'react-redux'
 import { authAction } from '../store/authSlice'
 import { useNavigate } from 'react-router-dom'
 import ForgotPassword from './ForgotPassword'
+import Spinner from './Spinner'
 import './Login.css'
 
 const Login=()=>{
@@ -17,9 +18,9 @@ const Login=()=>{
   const [error,setError]=useState(null)
   const [isLogin,setIsLogin]=useState(false)
   const [isForgotPassword,setForgotPassword]=useState(false)
- 
+  const [isLoading,setLoading]=useState(false)
+
   const dispatch=useDispatch()
-  const navigate=useNavigate()
 
   const onSignUp=async(event)=>{
       event.preventDefault() 
@@ -29,11 +30,12 @@ const Login=()=>{
      if(isLogin)
      {
       
+      setLoading(true)
         authData={
             email:emailRef.current.value,
             password:passwordRef.current.value
        }
-       res=await fetch('http://51.20.129.197:3000/user/auth-login',{
+       res=await fetch('http://51.20.144.40:3000/user/auth-login',{
         method:'POST',
         body:JSON.stringify(authData),
         headers:{
@@ -42,13 +44,14 @@ const Login=()=>{
      })
      }
      else{
+      setLoading(true)
          authData={
             username:nameRef.current.value,
             email:emailRef.current.value,
             password:passwordRef.current.value
          }
          console.log(authData)
-        res=await fetch('http://51.20.129.197:3000/user/auth-signup',{
+        res=await fetch('http://51.20.144.40:3000/user/auth-signup',{
              method:'POST',
              body:JSON.stringify(authData),
              headers:{
@@ -57,6 +60,7 @@ const Login=()=>{
           })
      }
     const data=await res.json()
+    setLoading(false)
      console.log(data)
     if(data.error)
      {
@@ -74,7 +78,7 @@ const Login=()=>{
          if(isLogin)
          {
             console.log(data.token)
-            setMessage(data.message)
+           alert(data.message)
            dispatch(authAction.login({...authData,token:data.token}))
            window.location.reload()
 
@@ -100,7 +104,7 @@ console.log(isLogin)
        {!isForgotPassword && <Container className='d-flex justify-content-center '>
              <Form className='w-50 border border-success  rounded form'  onSubmit={onSignUp}>
                 <Form.Text className='fs-1 text-success fw-bold'>{isLogin?'Login':'Sign Up'}</Form.Text>
-                {message && <h5 className='text-success'>{message}</h5>}
+                {message && <h5 className='text-info'>{message}</h5>}
                 {error && <h5 className='text-danger'>{error}</h5>}
                 {!isLogin && <Form.Group className="mb-3 mx-2"  controlId="formBasicPassword">
         <Form.Label className='fw-bold'>Name</Form.Label>
@@ -125,6 +129,7 @@ console.log(isLogin)
       <Button variant="success" type="submit" className='fw-bold'>
        {isLogin?'Login':'SignUp'}
       </Button>
+      {isLoading && <Spinner/>}
       <br/>
       <button type='button' onClick={()=>{setIsLogin((prev)=>{return !prev})}} className='m-2 border border-none bg-none text-success fw-bold'>{isLogin?'Don`t Have An Account':'Have An Account?'}</button>
       {isLogin && <button  type='button' onClick={()=>{setForgotPassword(true)}} className='m-2 border border-none bg-none text-success fw-bold'>Forgot Password?</button>}

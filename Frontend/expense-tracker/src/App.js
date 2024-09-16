@@ -8,19 +8,27 @@ import { UseSelector, useSelector,useDispatch } from 'react-redux';
 import { authAction } from './store/authSlice';
 import { expenseAction } from './store/expenseSlice';
 import Report from './components/reports/Report';
+import Navigation from './components/Nav';
+import ExpenseList from './components/ExpenseList';
 
 function App() {
 
    const dispatch=useDispatch()
+   const isdarkMode=useSelector((state)=>state.theme.inDarkMode)
   useEffect(()=>{
       if(localStorage.getItem('email'))
        dispatch(authAction.stayLogin())
        
   },[])
+  
+  useEffect(()=>{
+    document.body.style.backgroundColor = isdarkMode ? "#292c35" : "#fff";
+    document.body.style.color = isdarkMode ? "#fff" : "#292c35";
+  },[isdarkMode])
 
   useEffect(()=>{
     async function checkPremium(){
-      const res= await fetch('http://51.20.129.197:3000/user/get-premium',{
+      const res= await fetch('http://51.20.144.40:3000/user/get-premium',{
         method:'GET',
         headers:{
          'Authorization':localStorage.getItem('token') 
@@ -36,7 +44,7 @@ function App() {
 
   useEffect(()=>{
       async function getExpense(){
-         const res=await fetch('http://51.20.129.197:3000/expense/get-expense',{
+         const res=await fetch('http://51.20.144.40:3000/expense/get-expense',{
           method:'GET',
           headers:{
             'Authorization':localStorage.getItem('token')
@@ -54,7 +62,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        
+        <Navigation/>
+        <hr/>
       </header>
       <main className='app-main'>
         <Routes>
@@ -62,7 +71,7 @@ function App() {
            <Route path='/' element={<Login/>}/>
            <Route path='/add-expense' element={<ExpenseHome/>}/>
            <Route path='/report' element={<Report/>}/>
-           
+           <Route path='/view' element={<ExpenseList/>}/>
         </Routes>
       </main>
     </div>

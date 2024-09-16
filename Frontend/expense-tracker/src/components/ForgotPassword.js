@@ -8,7 +8,7 @@ const ForgotPassword=(props)=>{
     const submitForgotPassword=async(event)=>{
         event.preventDefault()
       
-        const res=await fetch('http://51.20.129.197:3000/password/forgotpassword',{
+        const res=await fetch('http://51.20.144.40:3000/password/forgotpassword',{
             method:'POST',
             body:JSON.stringify({email:emailRef.current.value}),
             headers:{

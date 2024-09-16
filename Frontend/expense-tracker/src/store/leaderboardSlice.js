@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const defaultValue={
    expenses:[],
+   totalPages:1
 
 }
 
@@ -13,7 +14,8 @@ const LeaderBoardSlice=createSlice({
        addExpense(state,action){
         //console.log(action.payload)
           state.expenses=[]
-          state.expenses=state.expenses.concat(action.payload)
+          state.expenses=state.expenses.concat(action.payload.expenses)
+          state.totalPages=action.payload.totalPages
           //console.log(state.expenses)
        }
     }

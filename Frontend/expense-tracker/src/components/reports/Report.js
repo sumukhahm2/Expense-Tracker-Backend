@@ -42,7 +42,7 @@ const Report=()=>{
   console.log(monthlyReports)
 
   const downloadExpenses=async()=>{
-     const res=await fetch('http://51.20.129.197:3000/expense/download-expense',{
+     const res=await fetch('http://51.20.144.40:3000/expense/download-expense',{
       method:'GET',
       headers:{
         'Authorization':localStorage.getItem('token')

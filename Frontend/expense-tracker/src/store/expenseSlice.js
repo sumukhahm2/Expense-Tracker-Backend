@@ -14,7 +14,7 @@ const ExpenseSlice=createSlice({
     initialState:defaultValue,
     reducers:{
        addExpenses(state,action){
-        //console.log(action.payload)
+        console.log(action.payload)
           state.expenses=state.expenses.concat(action.payload.expenses)
           state.totalPages=action.payload.totalPages
           console.log(state.totalPages)

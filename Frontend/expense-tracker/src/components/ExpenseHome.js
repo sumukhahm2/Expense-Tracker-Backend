@@ -47,7 +47,7 @@ const ExpenseHome=()=>{
       token:localStorage.getItem('token')
      }
      console.log(expenseData)
-   const res=await fetch('http://51.20.129.197:3000/expense/add-expense',{
+   const res=await fetch('http://51.20.144.40:3000/expense/add-expense',{
     method:'POST',
     body:JSON.stringify(expenseData),
     headers:{
@@ -64,9 +64,7 @@ const ExpenseHome=()=>{
 
   }
      
-  const logoutHandler=()=>{
-    dispatch(authAction.logout())
-  }
+ 
 
   //buyPremium function which is used to connect with Razorpay and display the Razorpay ui on frontend
   const buyPremium=async(e)=>{
@@ -78,7 +76,7 @@ const ExpenseHome=()=>{
       return
     }
      
-      const res=await fetch('http://51.20.129.197:3000/expense/buy-premium',{
+      const res=await fetch('http://51.20.144.40:3000/expense/buy-premium',{
          method:'GET',
          headers:{
            'Authorization':localStorage.getItem('token') 
@@ -92,7 +90,7 @@ const ExpenseHome=()=>{
         'order_id':data.order.id,
         'handler':async function (response){
           //console.log(response)
-          const result=await fetch('http://51.20.129.197:3000/expense/update-transaction',{
+          const result=await fetch('http://51.20.144.40:3000/expense/update-transaction',{
             method:'POST',
             body:JSON.stringify({
               order_id:response.razorpay_order_id,
@@ -127,12 +125,12 @@ const ExpenseHome=()=>{
 
   //ShowLeaderBoard function to show the leaderboard in descending order
   const showLeaderBoard=async()=>{
-      const res=await fetch('http://51.20.129.197:3000/expense/get-allexpenses',{
+      const res=await fetch('http://51.20.144.40:3000/expense/get-allexpenses',{
         method:'GET'
       })
       const data=await res.json()
       console.log(data.expenses)
-      dispatch(leaderboardAction.addExpense(data.expenses))
+      dispatch(leaderboardAction.addExpense(data))
       setLeaderBoard(true)
 
   }
@@ -141,7 +139,7 @@ const ExpenseHome=()=>{
         <Fragment>
           <Row>
             <Col className="col-8">
-            <Container className="d-flex justify-content-center mb-3">
+            <Container className="d-flex justify-content-center mb-3 shadow-lg border p-2">
             <Form onSubmit={addExpense}>
                 <Form.Text className="text-warning fs-1 fw-bold">Add Expense Details</Form.Text>
       <Form.Group className="mb-3 " controlId="expenseAmount">
@@ -167,16 +165,17 @@ const ExpenseHome=()=>{
     </Container>
     </Col>
     <Col>
-       {!isPremium && <Button variant="primary" onClick={buyPremium}>Buy Premium</Button>}
+     <Row>
+     {!isPremium && <Button variant="primary" onClick={buyPremium} className="fw-bolder">Buy Premium</Button>}
        {isPremium && <div><h4>You Are A Premium User</h4><Button className="mb-3" onClick={!isLeaderBoaerd?showLeaderBoard:()=>{setLeaderBoard(false)}}>{!isLeaderBoaerd?'Show LeaderBoard':'Hide LeaderBoard'}</Button></div>}
-       {isPremium && <a href="/report"  className=" border border-black text-decoration-none bg-success text-light ">Generate Report</a>}
-       </Col>
-       <Col>
-       <Button onClick={logoutHandler}>Logout</Button>
+     </Row>
+     <Row>
+     {isLeaderBoaerd && <ShowLeaderBoard />}
+     </Row>
        </Col>
     </Row>
-       <ExpenseList/>
-       {isLeaderBoaerd && <ShowLeaderBoard />}
+
+      
        {}
         </Fragment>
     )

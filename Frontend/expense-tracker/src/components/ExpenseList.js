@@ -16,7 +16,7 @@ const ExpenseList=()=>{
  
   const deleteExpense=async(id)=>{
     
-    const res=await fetch(`http://51.20.129.197:3000/expense/delete-expense/${id}`,{
+    const res=await fetch(`http://51.20.144.40:3000/expense/delete-expense/${id}`,{
         method:'DELETE',
         headers:{
           'Authorization':localStorage.getItem('token')
@@ -35,8 +35,8 @@ const ExpenseList=()=>{
     console.log('hi')
      setPage(page)
   },[])
-  console.log(page)
-
+  console.log(expenses.length%posts)
+  const total=(expenses.length%posts===0)?Math.floor(expenses.length/posts):Math.floor(expenses.length/posts)+1
   const changePageLimit=(event)=>{
     console.log(event.target.value)
     localStorage.setItem('postperscreen',event.target.value)
@@ -70,7 +70,7 @@ const ExpenseList=()=>{
     </Table>
   <Row className="">
       <Col className="">
-        <MyPagination total={totalPage} current={page} onChangePage={changePage}/>
+        <MyPagination total={total} current={page} onChangePage={changePage}/>
     </Col>
     <Col className="col-2">
       
